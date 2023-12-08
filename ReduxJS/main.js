@@ -1,10 +1,28 @@
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import logger from "redux-logger";
+// import thunk from "redux-thunk";
+
+const log = logger.createLogger();
+
+// const middleware = [thunk, logger]; // Can contain multiple middlewares if needed
+
+// custom middleware logger
+// const logger = createLogger({
+//   // ...options
+//   predicate: (getState, action) => action.type !== "INCREMENT",
+//   collapsed: (getState, action, logEntry) => !logEntry.error,
+//   duration: true,
+//   timestamp: true,
+//   level: "info",
+//   logErrors: true,
+// });
 
 // Actions are objects with type property
 const BUY_CAKE = "BUY_CAKE";
 const BUY_ICECREAM = "BUY_ICECREAM";
 
 // function that returns an action
+
 function buyCake() {
   return {
     type: BUY_CAKE,
@@ -60,12 +78,15 @@ const rootReducer = combineReducers({
 });
 
 // Redux store holds application state
-const store = createStore(rootReducer);
+const store = createStore(
+  rootReducer,
+  applyMiddleware(
+    log
+  ) /*, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()*/
+);
 console.log("Initial state", store.getState());
 
-const unsubscribe = store.subscribe(() =>
-  console.log("Updated state", store.getState())
-);
+const unsubscribe = store.subscribe(() => {});
 
 store.dispatch(buyCake());
 store.dispatch(buyCake());
