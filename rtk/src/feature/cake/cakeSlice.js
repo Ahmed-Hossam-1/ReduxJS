@@ -21,8 +21,7 @@ const cakeSlice = createSlice({
   //     --state.numberOfCakes;
   //   },
   // },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(createLogger),
+
   extraReducers: (builder) => {
     builder.addCase("cake/order", (state) => {
       --state.numberOfCakes;
